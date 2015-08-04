@@ -19,6 +19,14 @@ libraryDependencies += "com.github.scalaprops" %% "scalaprops" % "0.1.11" % "tes
 testFrameworks += new TestFramework("scalaprops.ScalapropsFramework")
 parallelExecution in Global := false
 
+publishTo <<= version { (v: String) =>
+  val nexus = "https://oss.sonatype.org/"
+  if (v.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
+
 publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
