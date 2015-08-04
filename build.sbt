@@ -1,57 +1,25 @@
-name := "bcrypt4z"
+import AddSettings._
 
-organization := "org.sazabi"
+val f = file("../settings.sbt")
 
-version := "0.0.1-SNAPSHOT"
+lazy val root = project.in(file(".")).settingSets(
+  autoPlugins, buildScalaFiles, userSettings, defaultSbtFiles
+).settings(
+  publishArtifact := false
+).aggregate(core, scalaz)
 
-scalaVersion := "2.11.2"
+lazy val core = project.in(file("core")).settingSets(
+  autoPlugins, buildScalaFiles, userSettings, sbtFiles(f)
+).settings(
+  name := "bcrypt4z",
+  libraryDependencies ++= Seq(
+    "com.github.mpilquist" %% "simulacrum" % "0.3.0"),
+  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
+)
 
-crossScalaVersions := Seq(scalaVersion.value, "2.10.4")
-
-libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-concurrent" % "7.1.0",
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.11.5" % "test")
-
-incOptions := incOptions.value.withNameHashing(true)
-
-scalacOptions ++= Seq(
-  "-unchecked",
-  "-deprecation",
-  "-feature",
-  "-language:implicitConversions")
-
-publishMavenStyle := true
-
-publishTo <<= version { (v: String) =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
-
-publishArtifact in Test := false
-
-pomIncludeRepository := { _ => false }
-
-pomExtra := (
-  <url>https://github.com/solar/bcrypt4z</url>
-  <licenses>
-    <license>
-      <name>Apache 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt"</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <scm>
-    <url>git@github.com:solar/bcrypt4z.git</url>
-    <connection>scm:git:git@github.com:solar/bcrypt4z.git</connection>
-  </scm>
-  <developers>
-    <developer>
-      <id>solar</id>
-      <name>Shinpei Okamura</name>
-      <url>https://github.com/solar</url>
-    </developer>
-  </developers>)
+lazy val scalaz = project.in(file("scalaz")).settingSets(
+  autoPlugins, buildScalaFiles, userSettings, sbtFiles(f)
+).settings(
+  name := "bcrypt4z-scalaz",
+  libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.3"
+).dependsOn(core)
