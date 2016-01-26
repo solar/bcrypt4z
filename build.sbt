@@ -13,13 +13,13 @@ lazy val core = project.in(file("core")).settingSets(
 ).settings(
   name := "bcrypt4z",
   libraryDependencies ++= Seq(
-    "com.github.mpilquist" %% "simulacrum" % "0.3.0"),
-  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
+    "com.github.mpilquist" %% "simulacrum" % "0.6.1"),
+  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 )
 
 lazy val scalaz = project.in(file("scalaz")).settingSets(
   autoPlugins, buildScalaFiles, userSettings, sbtFiles(f)
 ).settings(
   name := "bcrypt4z-scalaz",
-  libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.3"
+  libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.6"
 ).dependsOn(core)

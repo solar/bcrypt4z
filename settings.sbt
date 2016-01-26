@@ -1,7 +1,5 @@
 organization := "org.sazabi"
 
-version := "0.0.2-SNAPSHOT"
-
 scalaVersion := "2.11.7"
 
 crossScalaVersions := Seq(scalaVersion.value, "2.10.5")
@@ -14,10 +12,13 @@ scalacOptions ++= Seq(
   "-feature",
   "-language:implicitConversions")
 
-libraryDependencies += "com.github.scalaprops" %% "scalaprops" % "0.1.11" % "test"
+libraryDependencies += "com.github.scalaprops" %% "scalaprops" % "0.2.1" % "test"
 
 testFrameworks += new TestFramework("scalaprops.ScalapropsFramework")
 parallelExecution in Global := false
+
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+releaseCrossBuild := true
 
 publishTo <<= version { (v: String) =>
   val nexus = "https://oss.sonatype.org/"
