@@ -1,18 +1,22 @@
 organization := "org.sazabi"
 
-scalaVersion := "2.11.7"
-
-crossScalaVersions := Seq(scalaVersion.value, "2.10.5")
+scalaVersion := "2.11.8"
 
 incOptions := incOptions.value.withNameHashing(true)
+updateOptions := updateOptions.value.withCachedResolution(true)
 
 scalacOptions ++= Seq(
   "-unchecked",
   "-deprecation",
   "-feature",
-  "-language:implicitConversions")
+  "-language:implicitConversions",
+  "-Ybackend:GenBCode",
+  "-Ydelambdafy:method",
+  "-target:jvm-1.8")
 
-libraryDependencies += "com.github.scalaprops" %% "scalaprops" % "0.2.1" % "test"
+libraryDependencies ++= Seq(
+  "org.scala-lang.modules" %% "scala-java8-compat" % "0.7.0",
+  "com.github.scalaprops" %% "scalaprops" % "0.2.1" % "test")
 
 testFrameworks += new TestFramework("scalaprops.ScalapropsFramework")
 parallelExecution in Global := false

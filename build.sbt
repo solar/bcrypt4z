@@ -21,5 +21,5 @@ lazy val scalaz = project.in(file("scalaz")).settingSets(
   autoPlugins, buildScalaFiles, userSettings, sbtFiles(f)
 ).settings(
   name := "bcrypt4z-scalaz",
-  libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.6"
+  libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.1.7"
 ).dependsOn(core)
